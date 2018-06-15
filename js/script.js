@@ -29,6 +29,7 @@
       }
     ],
 
+    selectedCat: 'Socks'
   };
 
   const octopus = {
@@ -36,36 +37,57 @@
       return model.cats;
     },
 
+    getSelectedCat: function() {
+      const cats = this.getAllCats();
+      const selectedCat = model.selectedCat
+      const selectedCatObj = cats.filter(cat => cat.name === selectedCat);
+      return selectedCatObj[0];
+    },
+
+    setSelectedCat: function(cat) {
+      model.selectedCat = cat;
+    },
+
     init: function() {
       listView.init();
+      catDetailView.init();
     }
   };
 
   const listView = {
     init: function() {
-      const catList = document.querySelector('.cat-list');
-      //test for cat list
-      if (!catList) {
-        // if no cat list UL, build it
-        const sectionList = document.querySelector('.section-list');
-        const catList = document.createElement('ul');
-        catList.classList.add('cat-list');
-        sectionList.appendChild(catList);
+      listView.render();
+    },
 
-        //loop through cats array and attach an 'LI' to cat list UL
-        const catsArr = octopus.getAllCats();
-        catsArr.forEach(cat => {
-          let catItem = document.createElement('li');
-          catItem.classList.add('cat-item');
-          catItem.innerText = cat.name;
-          catList.appendChild(catItem);
-        })
-      }
+    render: function() {
+      catListSection = document.querySelector('.cat-list');
+      //loop through cats array and attach an LI to cat list UL
+      const catsArr = octopus.getAllCats();
+      catsArr.forEach(cat => {
+        let catItem = document.createElement('li');
+        catItem.classList.add('cat-item');
+        catItem.innerText = cat.name;
+        catListSection.appendChild(catItem);
+      });
     }
   };
 
   const catDetailView = {
+    init: function() {
+      //get current cat and populate details
+      this.catName = document.querySelector('.cat-name');
+      this.catImage = document.querySelector('.cat-image');
+      this.clicks = document.querySelector('.clicks');
 
+      catDetailView.render();
+    },
+
+    render: function() {
+      currentCat = octopus.getSelectedCat();
+      this.catName.innerText = currentCat.name;
+      this.catImage.setAttribute("src", currentCat.imagePath);
+      this.clicks.innerText = currentCat.clicks;
+    }
   };
 
   octopus.init();
