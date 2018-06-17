@@ -1,4 +1,4 @@
-# Feed Reader Testing Project
+# Cat Clicker Premium
 
 ## Table of Contents
 
