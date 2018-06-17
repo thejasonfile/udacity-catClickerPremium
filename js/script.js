@@ -37,15 +37,29 @@
       return model.cats;
     },
 
-    getSelectedCat: function() {
+    selectCatObject: function() {
       const cats = this.getAllCats();
       const selectedCat = model.selectedCat
-      const selectedCatObj = cats.filter(cat => cat.name === selectedCat);
+      return cats.filter(cat => cat.name === selectedCat);
+    },
+
+    getSelectedCat: function() {
+      const selectedCatObj = this.selectCatObject();
       return selectedCatObj[0];
     },
 
     setSelectedCat: function(cat) {
       model.selectedCat = cat;
+    },
+
+    getCurrentClicks: function() {
+      const selectedCatObj = this.selectCatObject();
+      return selectedCatObj[0].clicks;
+    },
+
+    incrementClicks: function() {
+      const selectedCatObj = this.selectCatObject();
+      selectedCatObj[0].clicks += 1;
     },
 
     init: function() {
@@ -84,6 +98,11 @@
       this.catName = document.querySelector('.cat-name');
       this.catImage = document.querySelector('.cat-image');
       this.clicks = document.querySelector('.clicks');
+
+      this.catImage.addEventListener('click', function() {
+        octopus.incrementClicks();
+        catDetailView.render();
+      });
 
       catDetailView.render();
     },
