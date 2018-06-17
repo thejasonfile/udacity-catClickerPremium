@@ -68,6 +68,12 @@
         catItem.classList.add('cat-item');
         catItem.innerText = cat.name;
         catListSection.appendChild(catItem);
+        catItem.addEventListener('click', (function(catCopy) {
+          return function() {
+            octopus.setSelectedCat(cat.name);
+            catDetailView.render();
+          }
+        })(cat.name))
       });
     }
   };

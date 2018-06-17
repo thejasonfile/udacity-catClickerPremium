@@ -1,1 +1,38 @@
+main {
+  display: flex;
+}
 
+.section-list,
+.section-details {
+  margin: 2em;
+}
+
+.section-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cat-list {
+  list-style: none;
+}
+
+.cat-list li {
+  padding: 0.4em;
+  margin: 0.2em;
+  border: 1px solid black;
+  text-align: center;
+  cursor: pointer;
+}
+
+.section-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.cat-image {
+  max-width: 100%;
+  max-height: 75vh;
+}
