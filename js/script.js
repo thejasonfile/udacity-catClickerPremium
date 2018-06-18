@@ -62,6 +62,14 @@
       selectedCatObj[0].clicks += 1;
     },
 
+    updateCatInfo: function(name, path, clicks) {
+      const selectedCatObj = this.selectCatObject();
+      selectedCatObj[0].name = name;
+      selectedCatObj[0].imagePath = path;
+      selectedCatObj[0].clicks = clicks;
+      model.selectedCat = name;
+    },
+
     init: function() {
       listView.init();
       catDetailView.init();
@@ -71,11 +79,12 @@
 
   const listView = {
     init: function() {
+      this.catListSection = document.querySelector('.cat-list');
+      this.catListSection.innerHTML = "";
       listView.render();
     },
 
     render: function() {
-      const catListSection = document.querySelector('.cat-list');
       const adminForm = document.querySelector('.admin-form');
       //loop through cats array and attach an LI to cat list UL
       const catsArr = octopus.getAllCats();
@@ -83,7 +92,7 @@
         let catItem = document.createElement('li');
         catItem.classList.add('cat-item');
         catItem.innerText = cat.name;
-        catListSection.appendChild(catItem);
+        this.catListSection.appendChild(catItem);
         catItem.addEventListener('click', (function(catCopy) {
           return function() {
             octopus.setSelectedCat(cat.name);
@@ -111,7 +120,7 @@
     },
 
     render: function() {
-      currentCat = octopus.getSelectedCat();
+      const currentCat = octopus.getSelectedCat();
       this.catName.innerText = currentCat.name;
       this.catImage.setAttribute("src", currentCat.imagePath);
       this.clicks.innerText = currentCat.clicks;
@@ -122,21 +131,19 @@
     init: function() {
       this.adminBtn = document.querySelector('.admin-btn');
       this.adminForm = document.querySelector('.admin-form');
-
-      this.render();
-    },
-
-    render: function() {
-      this.currentCat = octopus.getSelectedCat();
       this.cancelBtn = document.querySelector('.admin-btn-cancel');
       this.saveBtn = document.querySelector('.admin-btn-save');
       this.catNameField = document.querySelector('#admin-cat-name');
       this.catImgSrcField = document.querySelector('#admin-cat-img');
       this.catClickField = document.querySelector('#admin-cat-clicks');
+      this.render();
+    },
 
+    render: function() {
       this.adminBtn.addEventListener('click', (function(catCopy) {
-        adminFormView.adminForm.classList.toggle('hidden');
+        adminFormView.adminForm.classList.remove('hidden');
         return (function() {
+          let currentCat = octopus.getSelectedCat();
           adminFormView.catNameField.value = currentCat.name;
           adminFormView.catImgSrcField.value = currentCat.imagePath;
           adminFormView.catClickField.value = currentCat.clicks;
@@ -145,8 +152,16 @@
 
       this.cancelBtn.addEventListener('click', function(e) {
         e.preventDefault();
-        adminFormView.adminForm.classList.toggle('hidden');
+        adminFormView.adminForm.classList.add('hidden');
       });
+
+      this.saveBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        octopus.updateCatInfo(adminFormView.catNameField.value, adminFormView.catImgSrcField.value, adminFormView.catClickField.value)
+        adminFormView.adminForm.classList.add('hidden');
+        octopus.init();
+        console.log(model.cats);
+      })
     }
   };
 
