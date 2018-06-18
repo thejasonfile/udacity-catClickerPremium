@@ -59,14 +59,15 @@
 
     incrementClicks: function() {
       const selectedCatObj = this.selectCatObject();
-      selectedCatObj[0].clicks += 1;
+      selectedCatObj[0].clicks++;
+      console.log(selectedCatObj[0])
     },
 
     updateCatInfo: function(name, path, clicks) {
       const selectedCatObj = this.selectCatObject();
       selectedCatObj[0].name = name;
       selectedCatObj[0].imagePath = path;
-      selectedCatObj[0].clicks = clicks;
+      selectedCatObj[0].clicks = Number(clicks);
       model.selectedCat = name;
     },
 
@@ -80,11 +81,11 @@
   const listView = {
     init: function() {
       this.catListSection = document.querySelector('.cat-list');
-      this.catListSection.innerHTML = "";
       listView.render();
     },
 
     render: function() {
+      this.catListSection.innerHTML = "";
       const adminForm = document.querySelector('.admin-form');
       //loop through cats array and attach an LI to cat list UL
       const catsArr = octopus.getAllCats();
@@ -159,7 +160,9 @@
         e.preventDefault();
         octopus.updateCatInfo(adminFormView.catNameField.value, adminFormView.catImgSrcField.value, adminFormView.catClickField.value)
         adminFormView.adminForm.classList.add('hidden');
-        octopus.init();
+        listView.render();
+        catDetailView.render();
+        adminFormView.render();
         console.log(model.cats);
       })
     }
