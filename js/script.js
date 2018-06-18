@@ -65,6 +65,7 @@
     init: function() {
       listView.init();
       catDetailView.init();
+      adminFormView.init();
     }
   };
 
@@ -74,7 +75,8 @@
     },
 
     render: function() {
-      catListSection = document.querySelector('.cat-list');
+      const catListSection = document.querySelector('.cat-list');
+      const adminForm = document.querySelector('.admin-form');
       //loop through cats array and attach an LI to cat list UL
       const catsArr = octopus.getAllCats();
       catsArr.forEach(cat => {
@@ -85,6 +87,7 @@
         catItem.addEventListener('click', (function(catCopy) {
           return function() {
             octopus.setSelectedCat(cat.name);
+            adminForm.classList.add('hidden');
             catDetailView.render();
           }
         })(cat.name))
@@ -112,6 +115,38 @@
       this.catName.innerText = currentCat.name;
       this.catImage.setAttribute("src", currentCat.imagePath);
       this.clicks.innerText = currentCat.clicks;
+    }
+  };
+
+  const adminFormView = {
+    init: function() {
+      this.adminBtn = document.querySelector('.admin-btn');
+      this.adminForm = document.querySelector('.admin-form');
+
+      this.render();
+    },
+
+    render: function() {
+      this.currentCat = octopus.getSelectedCat();
+      this.cancelBtn = document.querySelector('.admin-btn-cancel');
+      this.saveBtn = document.querySelector('.admin-btn-save');
+      this.catNameField = document.querySelector('#admin-cat-name');
+      this.catImgSrcField = document.querySelector('#admin-cat-img');
+      this.catClickField = document.querySelector('#admin-cat-clicks');
+
+      this.adminBtn.addEventListener('click', (function(catCopy) {
+        adminFormView.adminForm.classList.toggle('hidden');
+        return (function() {
+          adminFormView.catNameField.value = currentCat.name;
+          adminFormView.catImgSrcField.value = currentCat.imagePath;
+          adminFormView.catClickField.value = currentCat.clicks;
+        })(adminFormView.currentCat);
+      }));
+
+      this.cancelBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        adminFormView.adminForm.classList.toggle('hidden');
+      });
     }
   };
 
