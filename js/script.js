@@ -60,7 +60,6 @@
     incrementClicks: function() {
       const selectedCatObj = this.selectCatObject();
       selectedCatObj[0].clicks++;
-      console.log(selectedCatObj[0])
     },
 
     updateCatInfo: function(name, path, clicks) {
@@ -163,7 +162,6 @@
         listView.render();
         catDetailView.render();
         adminFormView.render();
-        console.log(model.cats);
       })
     }
   };
