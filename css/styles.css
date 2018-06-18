@@ -3,6 +3,10 @@ ul {
   margin: 0;
 }
 
+button {
+  font-size: 1.4em;
+}
+
 main {
   display: flex;
 }
@@ -41,4 +45,28 @@ main {
 .cat-image {
   max-width: 100%;
   max-height: 75vh;
+}
+
+.admin-form {
+  display: flex;
+  flex-direction: column;
+  width: 20vw;
+  margin-top: 1em;
+}
+
+.admin-form label {
+  margin: 0.2em 0;
+}
+
+.admin-form input {
+  padding: 0.4em;
+  font-size: 1.4em;
+  border-radius: 5px;
+}
+.admin-btns {
+  margin-top: 1em;
+}
+
+.hidden {
+  display: none;
 }
